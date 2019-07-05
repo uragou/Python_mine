@@ -8,7 +8,6 @@ class Field():
         self.x = x
         self.y = y
         self.start_mine = mine
-        self.active_field = x * y
 
         #ゲームが終わったかどうか
         self.game_finish = False
@@ -48,7 +47,7 @@ class Field():
         map_data = self.canvas.gettags("current")[0].split("-")
         self.active_field -= 1
         self.canvas.delete("current")
-        
+
         if self.Mine_map[ int( map_data[1] ) ][ int( map_data[2] ) ] == 0:
             self.Copen( int( map_data[1] ) , int( map_data[2] ) )
         elif self.Mine_map[ int( map_data[1] ) ][ int( map_data[2] ) ] == 9:
@@ -62,34 +61,38 @@ class Field():
         if x > 0:
             Next_map = self.canvas.gettags( "field-" + str(y) + "-" + str(x-1) )
 
-            if not( Next_map == () ) and self.Mine_map[y][x-1] == 0:
+            if not( Next_map == () ) and not(self.Mine_map[y][x-1] == 9):
                 self.active_field -= 1
                 self.canvas.delete(Next_map)
-                self.Copen(y,x-1)
+                if self.Mine_map[y][x-1] == 0:
+                    self.Copen(y,x-1)
 
         if x < self.x - 1:
             Next_map = self.canvas.gettags( "field-" + str(y) + "-" + str(x+1) )
 
-            if not( Next_map == () ) and self.Mine_map[y][x+1] == 0:
+            if not( Next_map == () ) and not(self.Mine_map[y][x+1] == 9):
                 self.active_field -= 1
                 self.canvas.delete(Next_map)
-                self.Copen(y,x+1)
+                if self.Mine_map[y][x+1] == 0:
+                    self.Copen(y,x+1)
         
         if y > 0:
             Next_map = self.canvas.gettags( "field-" + str(y-1) + "-" + str(x) )
 
-            if not( Next_map == () ) and self.Mine_map[y-1][x] == 0:
+            if not( Next_map == () ) and not(self.Mine_map[y-1][x] == 9):
                 self.active_field -= 1
                 self.canvas.delete(Next_map)
-                self.Copen(y-1,x)
+                if self.Mine_map[y-1][x] == 0:
+                    self.Copen(y-1,x)
         
         if y < self.y - 1:
             Next_map = self.canvas.gettags( "field-" + str(y+1) + "-" + str(x) )
 
-            if not( Next_map == () ) and self.Mine_map[y+1][x] == 0:
+            if not( Next_map == () ) and not(self.Mine_map[y+1][x] == 9):
                 self.active_field -= 1
                 self.canvas.delete(Next_map)
-                self.Copen(y+1,x)
+                if self.Mine_map[y+1][x] == 0:
+                    self.Copen(y+1,x)
 
         
 
@@ -159,6 +162,8 @@ class Field():
         self.canvas.create_rectangle(0,0,self.x * 40 + 20, self.y * 40 + 20, fill = "white")
         self.message_game.set(u"")
         self.message_mine.set(self.start_mine)
+
+        self.active_field = self.x * self.y
 
         self.Mine_set()
         self.Map_load()
