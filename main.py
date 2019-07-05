@@ -12,9 +12,9 @@ class Field():
         #ゲームが終わったかどうか
         self.game_finish = False
 
-        self.nomal_color = "gray"
-        self.flag_color = "lightskyblue"
-        self.enter_color = "lightgray"
+        self.nomal_color = "#808080"
+        self.flag_color = "#87cefa"
+        self.enter_color = "#d3d3d3"
 
         self.main = tkinter.Tk()
         self.main.title(u"マインスイーパー")
@@ -168,6 +168,12 @@ class Field():
         self.Mine_set()
         self.Map_load()
         self.Field_init()
+
+        for lop in range(self.y):
+            for lop2 in range(self.x):
+                self.canvas.tag_raise("field-" + str(lop) + "-" + str(lop2))
+                #チート
+                #self.canvas.tag_raise("map-" + str(lop) + "-" + str(lop2))
 
         if self.game_finish == True:
             self.game_finish = False
