@@ -277,7 +277,7 @@ def set_func():
         message_err.set(u"少ない")
 
     #マス数*0.8　まで許容
-    elif x > 30 or y > 30 or x * y  < int( mine / 0.8 ) :
+    elif x > 20 or y > 20 or x * y  < int( mine / 0.8 ) :
         message_err.set(u"多い")
 
     else:
